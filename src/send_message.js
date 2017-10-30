@@ -1,7 +1,10 @@
-import { channel, response } from 'syncano-server';
+import Syncano from 'syncano-server'
 
-const { username, text, token } = ARGS;
+export default ctx => {
+  const { channel, response } = new Syncano(ctx)
+  const { username, text, token } = ctx.args
 
-channel.publish(`realtime.${token}`, { text, username })
-  .then(res => response(JSON.stringify(res), 200, 'application/json'))
-  .catch(err => response(JSON.stringify(err), 400, 'application/json'))
+  channel.publish(`realtime.${token}`, { text, username })
+    .then(res => response(JSON.stringify(res), 200, 'application/json'))
+    .catch(err => response(JSON.stringify(err), 400, 'application/json'))
+}
